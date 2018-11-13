@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.EmpDAO">
+	<resultMap type="com.entity.Emp" id="selectMap">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="salary" column="salary" />
+		<result property="age" column="age" />
+		<result property="bir" column="bir" />
+		<collection property="dept" ofType="com.entity.Dept">
+			<id property="id" column="deptid" />
+			<result property="name" column="deptname" />
+		</collection>
+	</resultMap>
+	<!-- 查询所有用户 -->
+	<select id="queryAll" resultMap="selectMap">
+		select
+		e.id,e.name,e.salary,e.age,e.bir,d.id as deptid,d.name as deptname
+		from emp e
+		inner join dept d
+		on
+		e.deptId=d.id
+	</select>
+
+	<!-- 添加 -->
+	<insert id="save">
+		insert into emp
+		(id,name,age,salary,bir) values
+		(#{id},#{name},#{age},#{salary},#{bir})
+	</insert>
+
+
+
+	<!-- 修改 -->
+	<update id="update" >
+		update emp set
+		salary=#{salary},name=#{name},age=#{age},bir=#{bir} where id=#{id}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="del">
+		delete from emp where id=#{id}
+	</delete>
+
+</mapper>
